@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>US States Graph Traversal</title>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+
+    <!-- Loading Bootstrap -->
+    <link href="/css/vendor/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="/css/flat-ui.css" rel="stylesheet">
+
+    <!-- jQuery (necessary for Flat UI's JavaScript plugins) -->
+    <script src="/js/vendor/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/flat-ui.min.js"></script>
+
+    <script type="text/javascript" src="/js/d3.js"></script>
+    <script type="text/javascript" src="/js/graph.js"></script>
+
+		<style type="text/css">
+
+      .node {
+        fill: #fff;
+        stroke: steelblue;
+        stroke-width: 4px;
+      }
+
+      .node-visited {
+        transition: fill 0.4s ease-in;
+        stroke-width: 4px;
+        stroke: #4a80B9;
+        fill: #7F8C8D;
+      }
+
+      .node-current {
+        transition: fill 0.4s ease-in;
+        stroke-width: 4px;
+        stroke: #2980B9;
+        fill: #E67E22;
+      }
+
+      .node-discovered {
+        transition: fill 0.4s ease-in;
+        stroke-width: 4px;
+        stroke: #4a80B9;
+        fill: #BDC3C7;
+      }
+
+      .label {
+        fill: #222;
+        font-family: helvetica;
+        font-size: 22px;
+      }
+
+      .label-visited {
+        transition: fill 0.4s ease-in;
+        fill: #fff;
+        font-family: helvetica;
+        font-size: 22px;
+      }
+
+      .label-discovered {
+        transition: fill 0.4s ease-in;
+        fill: #fff;
+        font-family: helvetica;
+        font-size: 22px;
+      }
+
+      .edge {
+          fill: none;
+          stroke: #ccc;
+          stroke-width: 5px;
+      }
+
+      .stats {
+        fill: #222;
+        font-family: helvetica;
+        font-size: 25px;
+      }
+
+      .stat {
+        color: #222;
+      }
+
+      #speed_slider {
+        width: 220px;
+      }
+
+    input[type=range]::-ms-track {
+        width: 220px;
+        height: 5px;
+        
+        /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+        background: transparent;
+        
+        /*leave room for the larger thumb to overflow with a transparent border */
+        border-color: transparent;
+        border-width: 6px 0;
+
+        /*remove default tick marks*/
+        color: transparent;
+    }
+    input[type=range]::-ms-fill-lower {
+        background: #777;
+        border-radius: 10px;
+    }
+    input[type=range]::-ms-fill-upper {
+        background: #ddd;
+        border-radius: 10px;
+    }
+    input[type=range]::-ms-thumb {
+        border: none;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: goldenrod;
+    }
+    input[type=range]:focus::-ms-fill-lower {
+        background: #888;
+    }
+    input[type=range]:focus::-ms-fill-upper {
+        background: #ccc;
+    }
+
+
+		</style>
+	</head>
+	<body>
+    <div class="container">
+      <h3>Traversal with vertex coloring</h3>
+      <div id="container">
+        <svg id="svg-container" width="900" height="460">
+          <g transform="translate(50, 360) scale(0.5)">
+            <text class="label" x="0" y="10">Unvisited:</text>
+            <circle class="node" r="30" cx="150" cy="0"></circle>
+            <text class="label" x="140" y="10">N</text>
+          </g>
+          <g transform="translate(40, 395) scale(0.5)"">
+            <text class="label" x="0" y="10">Discovered:</text>
+            <circle class="node node-discovered" r="30" cx="170" cy="0"></circle>
+            <text class="label label-discovered" x="160" y="10">O</text>
+          </g>
+          <g transform="translate(51, 430) scale(0.5)"">
+            <text class="label" x="30" y="10">Visited:</text>
+            <circle class="node node-visited" r="30" cx="150" cy="0"></circle>
+            <text class="label label-visited" x="140" y="10">P</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-4">
+          <h5>Speed</h5>
+          <form>
+            <input id="speed_slider" type="range"  min="0" max="5" value="3" step="1"/>
+          </form>
+        </div>
+        <div class="col-xs-4">
+          <h5>Traversal Type</h5>
+          <form>
+            <div id="traversal">
+              <label class="radio">
+                <input id="bfs" type="radio" name="traversalType" value="bfs" data-toggle="radio" checked />
+                Breadth First
+              </label>
+              <label class="radio">
+                <input id="dfs" type="radio" name="traversalType" value="dfs" data-toggle="radio" />
+                Depth First
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="map.js"></script>
+	</body>
+</html>
