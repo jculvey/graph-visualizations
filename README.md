@@ -8,7 +8,6 @@ Still a work in progress.
 Clone and:
 
 ```bash
-  $ npm install
   $ node server
 ```
 
